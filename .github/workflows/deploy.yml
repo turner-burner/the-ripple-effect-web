@@ -33,12 +33,12 @@ jobs:
 
       # Optional fallback step for SPA routing: copies index.html to 404.html 
       - name: Handle SPA Routing Fallback
-        run: cp .output/public/index.html .output/public/dist/404.html
+        run: cp .output/public/index.html .output/public/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './.output/public'
+          path: '.output/public'
 
   deploy:
     environment:
