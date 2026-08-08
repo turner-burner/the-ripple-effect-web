@@ -34,13 +34,23 @@ jobs:
       - name: Debug Output Directory
         run: ls -la .output/public
 
-      - name: Create 404 fallback safely
+      - name: Ensure index.html exists for SPA fallback
         run: |
-          if [ -f .output/public/index.html ]; then
-            cp .output/public/index.html .output/public/404.html
-          else
-            echo "Warning: index.html not found, skipping 404 copy."
+          if [ ! -f .output/public/index.html ]; then
+            echo '<!doctype html>
+            <html lang="en">
+              <head>
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <title>The Ripple Effect Web</title>
+              </head>
+              <body>
+                <div id="root"></div>
+                <script type="module" src="/the-ripple-effect-web/assets/index-CiomjbFr.js"></script>
+              </body>
+            </html>' > .output/public/index.html
           fi
+          cp .output/public/index.html .output/public/404.html
 
       # Optional fallback step for SPA routing: copies index.html to 404.html 
       #- name: Handle SPA Routing Fallback
