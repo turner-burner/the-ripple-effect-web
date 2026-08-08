@@ -31,9 +31,20 @@ jobs:
       - name: Build project
         run: bun run build
 
+      - name: Debug Output Directory
+        run: ls -la .output/public
+
+      - name: Create 404 fallback safely
+        run: |
+          if [ -f .output/public/index.html ]; then
+            cp .output/public/index.html .output/public/404.html
+          else
+            echo "Warning: index.html not found, skipping 404 copy."
+          fi
+
       # Optional fallback step for SPA routing: copies index.html to 404.html 
-      - name: Handle SPA Routing Fallback
-        run: cp .output/public/index.html .output/public/404.html
+      #- name: Handle SPA Routing Fallback
+      #  run: cp .output/public/index.html .output/public/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
